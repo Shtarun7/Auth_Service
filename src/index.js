@@ -5,8 +5,12 @@ const apiRouter = require("./routes/index");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const UserService = require("./services/user-service");
+const userService = new UserService();
+
 const prepareAndStartServer = () => {
   app.use("/api", apiRouter);
+
 
   app.listen(PORT, (e) => {
     if (e) {
