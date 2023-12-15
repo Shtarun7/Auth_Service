@@ -8,9 +8,16 @@ app.use(express.urlencoded({ extended: true }));
 const UserService = require("./services/user-service");
 const userService = new UserService();
 
-const prepareAndStartServer = () => {
+const { User, Role } = require("./models/index.js");
+const db = require("./models/index");
+
+const prepareAndStartServer = async () => {
   app.use("/api", apiRouter);
 
+  if (process.env.DB_SYNC == 1) {
+    console.log("db sync");
+    db.sequelize.sync({ alter: true });
+  }
 
   app.listen(PORT, (e) => {
     if (e) {
